@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pesquisa Personalizada</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+		<style>
+			:root {
+				--bg-dark: #1a1a1a;
+				--bg-light: #f0f0f0;
+				--text-dark: #ffffff;
+				--text-light: #000000;
+			}
+			body {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				margin: 0;
+				font-family: Arial, sans-serif;
+				transition: background-color 0.3s, color 0.3s;
+			}
+			.dark {
+				background-color: var(--bg-dark);
+				color: var(--text-dark);
+			}
+			.light {
+				background-color: var(--bg-light);
+				color: var(--text-light);
+			}
+			form {
+				display: flex;
+				width: 50%;
+				margin-bottom: 20px;
+			}
+			input[type="text"] {
+				width: 100%;
+				padding: 10px;
+				font-size: 18px;
+				border: 1px solid #ccc;
+				border-radius: 4px 0 0 4px;
+				outline: none;
+			}
+			input[type="submit"] {
+				padding: 10px 20px;
+				font-size: 18px;
+				border: 1px solid #ccc;
+				border-left: none;
+				background-color: #0078d7;
+				color: white;
+				border-radius: 0 4px 4px 0;
+				cursor: pointer;
+			}
+			input[type="submit"]:hover {
+				background-color: #005a9e;
+			}
+			.search-buttons {
+				display: flex;
+				gap: 10px;
+				margin-top: 20px;
+			}
+			.search-button {
+				padding: 10px 20px;
+				font-size: 16px;
+				border: none;
+				background-color: #333;
+				color: white;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: background-color 0.3s;
+			}
+			.search-button:hover {
+				background-color: #555;
+			}
+			#theme-toggle {
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				background: none;
+				border: none;
+				color: inherit;
+				font-size: 24px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body class="dark">
+		<button id="theme-toggle">
+			<i class="fas fa-sun"></i>
+		</button>
+		<form
+			action="https://duckduckgo.com/"
+			method="get"
+			target="_self"
+			id="search-form"
+		>
+			<input type="text" name="q" placeholder="Pesquisar na web..." autofocus />
+			<input type="submit" value="Pesquisar" />
+		</form>
+		<div class="search-buttons">
+			<button class="search-button" data-engine="google">
+				<i class="fab fa-google"></i> Google
+			</button>
+			<button class="search-button" data-engine="bing">
+				<i class="fab fa-microsoft"></i> Bing
+			</button>
+			<button class="search-button" data-engine="yahoo">
+				<i class="fab fa-yahoo"></i> Yahoo
+			</button>
+		</div>
+		<script>
+			const themeToggle = document.getElementById("theme-toggle");
+			const body = document.body;
+			const icon = themeToggle.querySelector("i");
+
+			themeToggle.addEventListener("click", () => {
+				body.classList.toggle("dark");
+				body.classList.toggle("light");
+				icon.classList.toggle("fa-sun");
+				icon.classList.toggle("fa-moon");
+			});
+
+			const searchForm = document.getElementById("search-form");
+			const searchInput = searchForm.querySelector('input[type="text"]');
+			const searchButtons = document.querySelectorAll(".search-button");
+
+			searchButtons.forEach((button) => {
+				button.addEventListener("click", () => {
+					const engine = button.dataset.engine;
+					const query = searchInput.value;
+					let url;
+
+					switch (engine) {
+						case "google":
+							url = `https://www.google.com/search?q=${encodeURIComponent(
+								query
+							)}`;
+							break;
+						case "bing":
+							url = `https://www.bing.com/search?q=${encodeURIComponent(
+								query
+							)}`;
+							break;
+						case "yahoo":
+							url = `https://search.yahoo.com/search?p=${encodeURIComponent(
+								query
+							)}`;
+							break;
+					}
+
+					if (url) {
+						window.location.href = url;
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
